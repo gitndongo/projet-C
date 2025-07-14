@@ -180,3 +180,82 @@ void rechercher_classe() {
         printf("❌ Classe non trouvée.\n");
     }
 }
+
+void afficher_etudiants_par_classe(int code) {
+    FILE *f = fopen("etudiants.csv", "r");
+    if (!f) {
+        printf("❌ Erreur : impossible d'ouvrir le fichier etudiants.csv\n");
+        return;
+    }
+
+    char ligne[200];
+    int id, classe;
+    char nom[50], prenom[50];
+    int trouve = 0;
+
+    printf("\n👥 Étudiants de la classe %d :\n", code);
+    printf("--------------------------------------------------\n");
+
+    while (fgets(ligne, sizeof(ligne), f)) {
+        sscanf(ligne, "%d,%49[^,],%49[^,],%d", &id, nom, prenom, &classe);
+        if (classe == code) {
+            printf("ID : %d | Nom : %s %s\n", id, prenom, nom);
+            trouve = 1;
+        }
+    }
+
+    fclose(f);
+
+    if (!trouve) {
+        printf("Aucun étudiant trouvé dans cette classe.\n");
+    }
+}
+
+void MenuGestionClasses() {
+    int choix, code;
+
+    do {
+        printf("\n===== MENU GESTION DES CLASSES =====\n");
+        printf("1. Ajouter une classe\n");
+        printf("2. Afficher toutes les classes\n");
+        printf("3. Modifier une classe\n");
+        printf("4. Supprimer une classe\n");
+        printf("5. Rechercher une classe\n");
+        printf("6. Afficher les etudiants d'une classe \n");
+        printf("0. Retour au menu principal\n");
+        printf("Votre choix : ");
+        scanf("%d", &choix);
+
+        switch (choix) {
+            case 1:
+                ajouter_classe();
+                break;
+            case 2:
+                afficher_classes();
+                break;
+            case 3:
+                printf("Entrez le code de la classe à modifier : ");
+                scanf("%d", &code);
+                modifier_classe(code);
+                break;
+            case 4:
+                printf("Entrez le code de la classe à supprimer : ");
+                scanf("%d", &code);
+                supprimer_classe(code);
+                break;
+            case 5:
+                rechercher_classe();
+                break;
+            case 6 :  int code;
+                printf("Entrez le code de la classe : ");
+                 scanf("%d", &code);
+                afficher_etudiants_par_classe(code);
+                 break;  
+            case 0:
+                printf("Retour au menu principal...\n");
+                break;
+            default:
+                printf("❌ Choix invalide.\n");
+        }
+    } while (choix != 0);
+}

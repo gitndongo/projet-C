@@ -11,9 +11,9 @@ void ajouterEtudiant() {
     printf("ID : "); scanf("%d", &e.id);
     printf("Nom : "); scanf("%s", e.nom);
     printf("Prénom : "); scanf("%s", e.prenom);
-    printf("Code classe : "); scanf("%s", e.codeClasse);
+    printf("Code classe : "); scanf("%d", &e.codeClasse);
 
-    fprintf(f, "%d,%s,%s,%s\n", e.id, e.nom, e.prenom, e.codeClasse);
+    fprintf(f, "%d,%s,%s,%d\n", e.id, e.nom, e.prenom, e.codeClasse);
     fclose(f);
     printf("✅ Etudiant ajoute avec succes !\n");
 }
@@ -32,8 +32,8 @@ void afficherEtudiants() {
    
     printf("Liste des étudiants :\n");
     int trouver = 0;
-    while (fscanf(f, "%d,%19[^,],%19[^,],%s\n", &e.id, e.nom, e.prenom, e.codeClasse)== 4) {
-        printf("ID: %d | %s %s | Classe: %s\n", e.id, e.nom, e.prenom, e.codeClasse);
+    while (fscanf(f, "%d,%19[^,],%19[^,],%d\n", &e.id, e.nom, e.prenom, &e.codeClasse)== 4) {
+        printf("ID: %d | %s %s | Classe: %d\n", e.id, e.nom, e.prenom, e.codeClasse);
         trouver = 1;    
         
     }
@@ -60,14 +60,14 @@ void modifierEtudiant() {
     Etudiant e;
     int trouve = 0;
 
-    while (fscanf(f, "%d,%[^,],%[^,],%s\n", &e.id, e.nom, e.prenom, e.codeClasse) != EOF) {
+    while (fscanf(f, "%d,%[^,],%[^,],%d\n", &e.id, e.nom, e.prenom, &e.codeClasse) != EOF) {
         if (e.id == id) {
             printf("Nouveau nom : "); scanf("%s", e.nom);
             printf("Nouveau prénom : "); scanf("%s", e.prenom);
-            printf("Nouveau code classe : "); scanf("%s", e.codeClasse);
+            printf("Nouveau code classe : "); scanf("%d", &e.codeClasse);
             trouve = 1;
         }
-        fprintf(temp, "%d,%s,%s,%s\n", e.id, e.nom, e.prenom, e.codeClasse);
+        fprintf(temp, "%d,%s,%s,%d\n", e.id, e.nom, e.prenom, e.codeClasse);
     }
 
     fclose(f);
@@ -96,9 +96,9 @@ void supprimerEtudiant() {
     fgets(ligne, sizeof(ligne), f); // sauter l'en-tête
     fprintf(temp, "%s", ligne);     // écrire l'en-tête dans le nouveau fichier
 
-    while (fscanf(f, "%d,%[^,],%[^,],%s\n", &e.id, e.nom, e.prenom, e.codeClasse) != EOF) {
+    while (fscanf(f, "%d,%[^,],%[^,],%d\n", &e.id, e.nom, e.prenom, &e.codeClasse) != EOF) {
         if (e.id != id)
-            fprintf(temp, "%d,%s,%s,%s\n", e.id, e.nom, e.prenom, e.codeClasse);
+            fprintf(temp, "%d,%s,%s,%d\n", e.id, e.nom, e.prenom, e.codeClasse);
         else
             trouve = 1;
     }
@@ -113,6 +113,8 @@ void supprimerEtudiant() {
     else
         printf("❌ Etudiant non trouvé.\n");
 }
+
+
 
 
 // Menu des etudiants

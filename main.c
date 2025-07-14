@@ -1,30 +1,33 @@
 #include<stdio.h>
-#include <string.h>
 #include<stdlib.h>
+#include<string.h>
+#include"classe.h"
 #include"matiere.h"
+#include"notes.h"
+#include"etudiants.h"
 
-int main ()
-{
- 
-    printf("======MENU PRINCIPALE=====\n\n");
+
+int main() {
     int choix;
-    printf("Taper ** 1 **  pour acceder a la MENU de le GESTION des MATIERES  et  ** 0 ** pour QUITTER \n");
-    
-    do 
-    {
-            printf("1-)\t=====GESTION DES MATIERES=====\n");
-           printf("0-)\t======QUITTER=====\n");
-           printf("**Entrer votre choix** : ");
-           scanf("%d", &choix);
-           switch (choix)
-            {
-                case 1 : menugestionmatiere();
-                    break;
-                case 0 : printf("=====Fermeture du programme=====\n");
-                    break;
-                default : printf("Ce choix est invalide.\n");
-            }
+    do {
+        printf("\n===== MENU PRINCIPAL =====\n");
+        printf("1. Gestion des matières\n");
+        printf("2. Gestion des étudiants\n");
+        printf("3. Gestion des classes\n");
+        printf("4. Gestion des notes\n");
+        printf("0. Quitter\n");
+        printf("Votre choix : ");
+        scanf("%d", &choix);
 
-        }while (choix != 0 );
+        switch (choix) {
+            case 1: menugestionmatiere(); break;
+            case 2: menuEtudiants(); break;
+            case 3: MenuGestionClasses(); break;
+            case 4: menuNotes(); break;
+            case 0: printf("Merci, au revoir !\n"); break;
+            default: printf("Choix invalide.\n");
+        }
+    } while (choix != 0);
 
+    return 0;
 }

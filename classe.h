@@ -14,5 +14,7 @@ void afficher_classes();
 int supprimer_classe(int code);
 int modifier_classe(int code);
 void rechercher_classe();
+void MenuGestionClasses();
+void afficher_etudiants_par_classe(int code );
 
 #endif

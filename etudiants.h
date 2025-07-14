@@ -5,7 +5,7 @@ typedef struct {
     int id;
     char nom[100];
     char prenom[100];
-    char codeClasse[50];
+    int  codeClasse ;
 } Etudiant;
 
 void ajouterEtudiant();
