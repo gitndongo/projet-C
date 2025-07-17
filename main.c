@@ -5,6 +5,7 @@
 #include"matiere.h"
 #include"notes.h"
 #include"etudiants.h"
+#include "classe_matiere.h"
 
 
 int main() {

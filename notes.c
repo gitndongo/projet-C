@@ -1,31 +1,133 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "notes.h"
+#include<stdbool.h>
+#include <string.h>
+#include"etudiants.h"
+
+
+
+
+// ====================================================================================================
+
+
+
+bool etudiantExiste(int id) {
+    FILE *f = fopen("etudiants.csv", "r");
+    if (!f) {
+        printf("Erreur : impossible d'ouvrir etudiants.csv\n");
+        return false;
+    }
+
+    int id_temp;
+    char ligne[256];
+
+    while (fgets(ligne, sizeof(ligne), f)) {
+        sscanf(ligne, "%d", &id_temp);
+        if (id_temp == id) {
+            fclose(f);
+            return true;
+        }
+    }
+
+    fclose(f);
+    return false;
+}
+
+// ====================================================================================================
+
+bool matiereExiste(int id) {
+    FILE *f = fopen("matiere.csv", "r");
+    if (!f) {
+        printf("Erreur : impossible d'ouvrir matieres.csv\n");
+        return false;
+    }
+
+    int id_temp;
+    char ligne[256];
+
+    while (fgets(ligne, sizeof(ligne), f)) {
+        sscanf(ligne, "%d", &id_temp);
+        if (id_temp == id) {
+            fclose(f);
+            return true;
+        }
+    }
+
+    fclose(f);
+    return false;
+}
+
+// ====================================================================================================
+
 
 void ajouterNote() {
+    Note n;
+
+    printf("ID etudiant : ");
+    scanf("%d", &n.etudiant_id);
+
+    // Vérification de l'existence de l'étudiant
+    if (!etudiantExiste(n.etudiant_id)) {
+        printf("Erreur : l'étudiant avec l'ID %d n'existe pas.\n", n.etudiant_id);
+        return;
+    }
+
+    printf("ID matiere : ");
+    scanf("%d", &n.matiere_id);
+
+    if (!matiereExiste(n.matiere_id)) {
+        printf("Erreur : la matière avec l'ID %d n'existe pas.\n", n.matiere_id);
+        return;
+    }
+
+    printf("Note CC : ");
+    scanf("%f", &n.note_cc);
+    printf("Note DS : ");
+    scanf("%f", &n.note_ds);
+
     FILE *f = fopen("notes.csv", "a");
     if (!f) {
         printf("Erreur : impossible d'ouvrir notes.csv\n");
         return;
     }
 
-    Note n;
-    printf("ID etudiant : ");
-    scanf("%d", &n.etudiant_id);
-    printf("ID matiere : ");
-    scanf("%d", &n.matiere_id);
-    printf("Note CC : ");
-    scanf("%f", &n.note_cc);
-    printf("Note DS : ");
-    scanf("%f", &n.note_ds);
-
     fprintf(f, "%d,%d,%.2f,%.2f\n", n.etudiant_id, n.matiere_id, n.note_cc, n.note_ds);
     fclose(f);
 
-    printf("Note ajoutee avec succes.\n");
+    printf("Note ajoutée avec succès.\n");
 }
 
-void modifierNote() {
+// ====================================================================================================
+
+// void ajouterNote()
+//  {
+//     FILE *f = fopen("notes.csv", "a");
+//     if (!f) {
+//         printf("Erreur : impossible d'ouvrir notes.csv\n");
+//         return;
+//     }
+
+//     Note n;
+//     printf("ID etudiant : ");
+//     scanf("%d", &n.etudiant_id);
+
+
+//     printf("ID matiere : ");
+//     scanf("%d", &n.matiere_id);
+//     printf("Note CC : ");
+//     scanf("%f", &n.note_cc);
+//     printf("Note DS : ");
+//     scanf("%f", &n.note_ds);
+
+//     fprintf(f, "%d,%d,%.2f,%.2f\n", n.etudiant_id, n.matiere_id, n.note_cc, n.note_ds);
+//     fclose(f);
+
+//     printf("Note ajoutee avec succes.\n");
+// }
+
+void modifierNote() 
+{
     FILE *f = fopen("notes.csv", "r");
     FILE *temp = fopen("temp.csv", "w");
     if (!f || !temp) {
@@ -36,8 +138,14 @@ void modifierNote() {
     int etu_id, mat_id;
     printf("ID etudiant : ");
     scanf("%d", &etu_id);
+     if (!etudiantExiste(etu_id)) {
+        printf("Erreur : l'étudiant avec l'ID %d n'existe pas.\n", etu_id);
+        return; }
     printf("ID matiere : ");
     scanf("%d", &mat_id);
+     if (!matiereExiste(mat_id)) {
+        printf("Erreur : la matière avec l'ID %d n'existe pas.\n", mat_id);
+        return; }
 
     Note n;
     int trouve = 0;
@@ -64,7 +172,8 @@ void modifierNote() {
         printf("Note non trouvee.\n");
 }
 
-void supprimerNote() {
+void supprimerNote()
+{
     FILE *f = fopen("notes.csv", "r");
     FILE *temp = fopen("temp.csv", "w");
     if (!f || !temp) {
@@ -100,7 +209,8 @@ void supprimerNote() {
         printf("Note non trouvee.\n");
 }
 
-void afficherNotesEtudiant() {
+void afficherNotesEtudiant()    // pour afficher note d'un etudiant 
+ {
     int etu_id;
     printf("ID de l'etudiant : ");
     scanf("%d", &etu_id);
@@ -129,7 +239,8 @@ void afficherNotesEtudiant() {
     fclose(f);
 }
 
-void afficherNotesClasse() {
+void afficherNotesClasse()    // pour afficher note d'une classe 
+{
     int classe_id;
     printf("ID de la classe : ");
     scanf("%d", &classe_id);
@@ -147,23 +258,15 @@ void afficherNotesClasse() {
         return;
     }
 
-    typedef struct {
-        int id;
-        char nom[50];
-        char prenom[50];
-        char sexe[10];
-        char date_naissance[20];
-        int classe_id;
-    } Etudiant;
-
     Etudiant e;
     int note_trouvee = 0;
 
     printf("Notes des etudiants de la classe %d :\n", classe_id);
 
-    while (fscanf(f_etud, "%d,%49[^,],%49[^,],%9[^,],%19[^,],%d\n",
-                  &e.id, e.nom, e.prenom, e.sexe, e.date_naissance, &e.classe_id) != EOF) {
-        if (e.classe_id == classe_id) {
+   while (fscanf(f_etud, "%d,%49[^,],%49[^,],%9[^,\n]",
+              &e.id, e.nom, e.prenom, e.codeClasse) != EOF)
+{
+        if (e.codeClasse == classe_id) {
             rewind(f_notes);
 
             Note n;

@@ -1,5 +1,6 @@
 #ifndef NOTES_H
 #define NOTES_H
+#include<stdbool.h>
 
 typedef struct {
     int etudiant_id;
@@ -14,5 +15,7 @@ void supprimerNote();
 void afficherNotesEtudiant();
 void afficherNotesClasse();
 void menuNotes();
+bool etudiantExiste(int id);
+bool  matiereExiste(int id);
 
 #endif

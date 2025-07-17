@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "matiere.h"
+#include "classe_matiere.h"
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------
@@ -230,7 +231,7 @@ void menugestionmatiere()
     {
         printf("Taper : \n ");
         int choix;
-        printf("\n1-) Pour Ajouter une matiere \n2-) Pour Modifier une matiere \n3-) Pour Supprimer une matiere \n4-) Pour Rechercher une matiere \n5-) Pour Afficher toutes les matieres\n0-) Pour quitter\n");
+        printf("\n1-) Pour Ajouter une matiere \n2-) Pour Modifier une matiere \n3-) Pour Supprimer une matiere \n4-) Pour Rechercher une matiere \n5-) Pour Afficher toutes les matieres\n6-) Pour Associer une matiere a une classe \n7-) pour afficher les matieres d'une classe \n8-) Pour modifier une matiere d'une classe \n9-) Pour supprimer une matiere \n0-) Pour quitter\n");
         printf("Entrer votre choix  : ");
         scanf("%d", &choix);
             switch (choix)
@@ -245,6 +246,18 @@ void menugestionmatiere()
                         break;
                 case 5 : affichermatiere();
                         break;
+                case 6 :  ajouter_classe_matiere();
+                         break;
+                case 7: 
+                     int code;
+                         printf("Code de la classe : ");
+                              scanf("%d", &code);
+                         afficher_matieres_classe(code);
+                        break;
+                case 8 :  modifier_matiere_de_classe();
+                        break;
+                case 9 : supprimer_matiere_de_classe() ;
+                         break ;
                 case 0 : break;
                 default : printf("choix invalide \n ");
 
