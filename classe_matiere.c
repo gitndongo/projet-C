@@ -3,7 +3,9 @@
 #include <string.h>
 #include "classe_matiere.h"
 
-// Associe une matière à une classe
+int classe_existe(int code_classe);
+int matiere_existe(int ref_matiere);
+
 void ajouter_classe_matiere() {
     int code_classe, ref_matiere;
     printf("Code de la classe : ");
@@ -23,7 +25,6 @@ void ajouter_classe_matiere() {
     printf("✅ Matière associée à la classe avec succès.\n");
 }
 
-// Affiche les matières d'une classe donnée
 void afficher_matieres_classe(int code_classe) {
     FILE *f_rel = fopen("classe_matiere.csv", "r");
     FILE *f_mat = fopen("matiere.csv", "r");
@@ -37,7 +38,6 @@ void afficher_matieres_classe(int code_classe) {
     int matieres[100];
     int count = 0;
 
-    // Lire les relations classe-matière
     while (fgets(ligne, sizeof(ligne), f_rel)) {
         sscanf(ligne, "%d,%d", &code, &ref_matiere);
         if (code == code_classe) {
@@ -52,7 +52,6 @@ void afficher_matieres_classe(int code_classe) {
         return;
     }
 
-    // Afficher les matières correspondantes
     printf(" Matières de la classe %d :\n", code_classe);
     while (fgets(ligne, sizeof(ligne), f_mat)) {
         int ref;
@@ -106,14 +105,30 @@ void supprimer_matiere_de_classe() {
     else
         printf(" Aucune association trouvee pour supprimer.\n");
 }
+
 void modifier_matiere_de_classe() {
     int code_classe, ancienne_ref, nouvelle_ref;
     printf("Code de la classe : ");
     scanf("%d", &code_classe);
+
+    if (!classe_existe(code_classe)) {
+        printf("❌ La classe %d n'existe pas dans classe_matiere.csv.\n", code_classe);
+        return;
+    }
+
     printf("Référence actuelle de la matière : ");
     scanf("%d", &ancienne_ref);
+    if (!matiere_existe(ancienne_ref)) {
+        printf("❌ La matière %d n'existe pas dans matiere.csv.\n", ancienne_ref);
+        return;
+    }
+
     printf("Nouvelle référence de la matière : ");
     scanf("%d", &nouvelle_ref);
+    if (!matiere_existe(nouvelle_ref)) {
+        printf("❌ La nouvelle matière %d n'existe pas dans matiere.csv.\n", nouvelle_ref);
+        return;
+    }
 
     FILE *f_old = fopen("classe_matiere.csv", "r");
     FILE *f_new = fopen("temp.csv", "w");
@@ -147,3 +162,40 @@ void modifier_matiere_de_classe() {
         printf("❌ Aucune correspondance trouvée à modifier.\n");
 }
 
+// 🔎 Vérifie si une classe existe dans classe_matiere.csv
+int classe_existe(int code_classe) {
+    FILE *f = fopen("classe_matiere.csv", "r");
+    if (!f) return 0;
+
+    int c, r;
+    char ligne[200];
+    while (fgets(ligne, sizeof(ligne), f)) {
+        sscanf(ligne, "%d,%d", &c, &r);
+        if (c == code_classe) {
+            fclose(f);
+            return 1;
+        }
+    }
+
+    fclose(f);
+    return 0;
+}
+
+// 🔎 Vérifie si une matière existe dans matiere.csv
+int matiere_existe(int ref_matiere) {
+    FILE *f = fopen("matiere.csv", "r");
+    if (!f) return 0;
+
+    int ref, coef;
+    char libelle[50], ligne[200];
+    while (fgets(ligne, sizeof(ligne), f)) {
+        sscanf(ligne, "%d,%49[^,],%d", &ref, libelle, &coef);
+        if (ref == ref_matiere) {
+            fclose(f);
+            return 1;
+        }
+    }
+
+    fclose(f);
+    return 0;
+}

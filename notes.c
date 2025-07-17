@@ -7,11 +7,6 @@
 
 
 
-
-// ====================================================================================================
-
-
-
 bool etudiantExiste(int id) {
     FILE *f = fopen("etudiants.csv", "r");
     if (!f) {
@@ -34,7 +29,6 @@ bool etudiantExiste(int id) {
     return false;
 }
 
-// ====================================================================================================
 
 bool matiereExiste(int id) {
     FILE *f = fopen("matiere.csv", "r");
@@ -58,7 +52,6 @@ bool matiereExiste(int id) {
     return false;
 }
 
-// ====================================================================================================
 
 
 void ajouterNote() {
@@ -98,33 +91,6 @@ void ajouterNote() {
     printf("Note ajoutée avec succès.\n");
 }
 
-// ====================================================================================================
-
-// void ajouterNote()
-//  {
-//     FILE *f = fopen("notes.csv", "a");
-//     if (!f) {
-//         printf("Erreur : impossible d'ouvrir notes.csv\n");
-//         return;
-//     }
-
-//     Note n;
-//     printf("ID etudiant : ");
-//     scanf("%d", &n.etudiant_id);
-
-
-//     printf("ID matiere : ");
-//     scanf("%d", &n.matiere_id);
-//     printf("Note CC : ");
-//     scanf("%f", &n.note_cc);
-//     printf("Note DS : ");
-//     scanf("%f", &n.note_ds);
-
-//     fprintf(f, "%d,%d,%.2f,%.2f\n", n.etudiant_id, n.matiere_id, n.note_cc, n.note_ds);
-//     fclose(f);
-
-//     printf("Note ajoutee avec succes.\n");
-// }
 
 void modifierNote() 
 {

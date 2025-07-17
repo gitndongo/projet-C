@@ -93,8 +93,8 @@ void supprimerEtudiant() {
     int trouve = 0;
 
     char ligne[100];
-    fgets(ligne, sizeof(ligne), f); // sauter l'en-tête
-    fprintf(temp, "%s", ligne);     // écrire l'en-tête dans le nouveau fichier
+    fgets(ligne, sizeof(ligne), f); 
+    fprintf(temp, "%s", ligne);     
 
     while (fscanf(f, "%d,%[^,],%[^,],%d\n", &e.id, e.nom, e.prenom, &e.codeClasse) != EOF) {
         if (e.id != id)
