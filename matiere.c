@@ -45,22 +45,20 @@ void ajoutermatiere()
         return;
     }
 
-    // 2. Affichage des matières existantes
     printf("\n======== Liste des matieres existantes ========\n");
     char ligne[100];
     while (fgets(ligne, sizeof(ligne), f)) 
     {
         printf("%s", ligne);
     }
-    rewind(f); // Retour au début du fichier
+    rewind(f); 
 
-    // 3. Saisie de l'ID à modifier
     int id_rechercher;
     printf("\n*** Entrez l'ID de la matiere a modifier : ");
     scanf("%d", &id_rechercher);
-    getchar(); // Absorption du '\n'
+    getchar(); 
 
-    // 4. Parcours et modification
+    
     Matiere m;
     int trouver = 0;
     while (fscanf(f, "%d,%19[^,],%d\n", &m.id_matiere, m.nom_matiere, &m.coef) == 3) {
@@ -75,12 +73,11 @@ void ajoutermatiere()
             printf("Ancien coefficient : %d\n", m.coef);
             printf("Nouveau coefficient : ");
             scanf("%d", &m.coef);
-            getchar(); // Absorption du '\n'
+            getchar(); 
         }
         fprintf(temp, "%d,%s,%d\n", m.id_matiere, m.nom_matiere, m.coef);
     }
 
-    // 5. Fermeture et remplacement des fichiers
     fclose(f);
     fclose(temp);
     
@@ -89,13 +86,11 @@ void ajoutermatiere()
         rename("temp.csv", "matiere.csv");
         printf("\n**** Matiere modifiee avec succes ****\n");
     } else {
-        remove("temp.csv"); // Suppression si aucune modification
+        remove("temp.csv"); 
         printf("\n*** Matiere non trouvee - Verifiez l'ID ***\n");
     }
 }
 
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
 
 void supprimermatiere()
 {
@@ -146,8 +141,7 @@ printf("\n****Matiere non retrouver , verifier l'ID saisie *******");
 
 
 }
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
+
 
 void recherchermatiere()
 {
@@ -174,7 +168,7 @@ void recherchermatiere()
             trouver = 1;
             printf("\n Matiere trouvee :\n");
             printf("%3d | %-19s | %3d\n", m.id_matiere, m.nom_matiere, m.coef);
-            break; // on sort de la boucle dès qu'on trouve
+            break; 
         }
     }
 
@@ -186,9 +180,6 @@ void recherchermatiere()
     }
 }
 
-
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
 
 void affichermatiere()
 {
@@ -220,9 +211,6 @@ void affichermatiere()
     }
 }
 
-//-------------------------------------------------------------------------------------------------
-//-------------------------------------------------------------------------------------------------
-
 
 void menugestionmatiere()
 {
@@ -231,7 +219,7 @@ void menugestionmatiere()
     {
         printf("Taper : \n ");
         int choix;
-        printf("\n1-) Pour Ajouter une matiere \n2-) Pour Modifier une matiere \n3-) Pour Supprimer une matiere \n4-) Pour Rechercher une matiere \n5-) Pour Afficher toutes les matieres\n6-) Pour Associer une matiere a une classe \n7-) pour afficher les matieres d'une classe \n8-) Pour modifier une matiere d'une classe \n9-) Pour supprimer une matiere \n0-) Pour quitter\n");
+        printf("\n1. Pour Ajouter une matiere \n2. Pour Modifier une matiere \n3. Pour Supprimer une matiere \n4. Pour Rechercher une matiere \n5. Pour Afficher toutes les matieres\n6. Pour Associer une matiere a une classe \n7. pour afficher les matieres d'une classe \n8. Pour modifier une matiere d'une classe \n9. Pour supprimer une matiere \n0-) Pour quitter\n");
         printf("Entrer votre choix  : ");
         scanf("%d", &choix);
             switch (choix)

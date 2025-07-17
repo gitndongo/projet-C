@@ -205,62 +205,87 @@ void afficherNotesEtudiant()    // pour afficher note d'un etudiant
     fclose(f);
 }
 
-void afficherNotesClasse()    // pour afficher note d'une classe 
-{
-    int classe_id;
-    printf("ID de la classe : ");
-    scanf("%d", &classe_id);
 
-    FILE *f_etud = fopen("etudiants.csv", "r");
-    if (!f_etud) {
-        printf("Erreur : fichier etudiants.csv introuvable.\n");
-        return;
+bool classeExiste(int code) {
+    FILE *f = fopen("classes.csv", "r");
+    if (!f) {
+        printf("Erreur : impossible d'ouvrir classes.csv\n");
+        return false;
     }
 
-    FILE *f_notes = fopen("notes.csv", "r");
-    if (!f_notes) {
-        printf("Erreur : fichier notes.csv introuvable.\n");
-        fclose(f_etud);
-        return;
-    }
+    int code_lu;
+    char nom[50];
+    char ligne[100];
 
-    Etudiant e;
-    int note_trouvee = 0;
-
-    printf("Notes des etudiants de la classe %d :\n", classe_id);
-
-   while (fscanf(f_etud, "%d,%49[^,],%49[^,],%9[^,\n]",
-              &e.id, e.nom, e.prenom, e.codeClasse) != EOF)
-{
-        if (e.codeClasse == classe_id) {
-            rewind(f_notes);
-
-            Note n;
-            int etu_trouve = 0;
-
-            while (fscanf(f_notes, "%d,%d,%f,%f\n",
-                          &n.etudiant_id, &n.matiere_id, &n.note_cc, &n.note_ds) != EOF) {
-                if (n.etudiant_id == e.id) {
-                    printf("Etudiant: %s %s (ID: %d), Matiere ID: %d, CC: %.2f, DS: %.2f\n",
-                           e.nom, e.prenom, e.id, n.matiere_id, n.note_cc, n.note_ds);
-                    etu_trouve = 1;
-                    note_trouvee = 1;
-                }
-            }
-
-            if (!etu_trouve) {
-                printf("Etudiant: %s %s (ID: %d) n'a pas encore de notes.\n", e.nom, e.prenom, e.id);
+    while (fgets(ligne, sizeof(ligne), f)) {
+        if (sscanf(ligne, "%d,%49[^\n]", &code_lu, nom) == 2) {
+            if (code_lu == code) {
+                fclose(f);
+                return true;
             }
         }
     }
 
-    if (!note_trouvee) {
-        printf("Aucune note trouvee pour cette classe.\n");
+    fclose(f);
+    return false;
+}
+
+void afficherNotesClasse() {
+    int classe_id;
+    printf("ID de la classe : ");
+    scanf("%d", &classe_id);
+
+    if (!classeExiste(classe_id)) {
+        printf("❌ La classe %d n'existe pas.\n", classe_id);
+        return;
+    }
+
+    FILE *f_etud = fopen("etudiants.csv", "r");
+    FILE *f_notes = fopen("notes.csv", "r");
+    if (!f_etud || !f_notes) {
+        printf("Erreur : impossible d'ouvrir les fichiers.\n");
+        if (f_etud) fclose(f_etud);
+        if (f_notes) fclose(f_notes);
+        return;
+    }
+
+    Etudiant e;
+    Note n;
+    int trouve_etudiant = 0;
+
+    printf("\n📚 Notes des étudiants de la classe %d :\n", classe_id);
+
+    while (fscanf(f_etud, "%d,%49[^,],%49[^,],%d\n",
+                  &e.id, e.nom, e.prenom, &e.codeClasse) != EOF) {
+        if (e.codeClasse == classe_id) {
+            trouve_etudiant = 1;
+            int note_trouvee = 0;
+
+            rewind(f_notes);  // recommencer la lecture des notes
+            while (fscanf(f_notes, "%d,%d,%f,%f\n",
+                          &n.etudiant_id, &n.matiere_id, &n.note_cc, &n.note_ds) != EOF) {
+                if (n.etudiant_id == e.id) {
+                    printf("Etudiant: %s %s (ID: %d) → Matière ID: %d | CC: %.2f | DS: %.2f\n",
+                           e.nom, e.prenom, e.id, n.matiere_id, n.note_cc, n.note_ds);
+                    note_trouvee = 1;
+                }
+            }
+
+            if (!note_trouvee) {
+                printf("Etudiant: %s %s (ID: %d) → Aucune note trouvée.\n",
+                       e.nom, e.prenom, e.id);
+            }
+        }
+    }
+
+    if (!trouve_etudiant) {
+        printf("📌 Aucun étudiant trouvé dans cette classe.\n");
     }
 
     fclose(f_etud);
     fclose(f_notes);
 }
+
 
 void menuNotes() {
     int choix;
@@ -291,7 +316,7 @@ void menuNotes() {
             case 5:
                 afficherNotesClasse();
                 break;
-            case 6:
+            case 0:
                 printf("Retour au menu principal.\n");
                 break;
             default:
