@@ -289,38 +289,35 @@ void afficherNotesClasse() {
 
 void menuNotes() {
     int choix;
+
     do {
-        printf("\n=== Gestion des notes ===\n");
-        printf("1. Ajouter une note\n");
-        printf("2. Modifier une note\n");
-        printf("3. Supprimer une note\n");
-        printf("4. Afficher notes d'un etudiant\n");
-        printf("5. Afficher notes d'une classe\n");
-        printf("6. Quitter\n");
-        printf("Votre choix : ");
+        printf("\n\n");
+        printf("╔══════════════════════════════════════════════════════════════════════╗\n");
+        printf("║                 📊 GESTION DES NOTES                                 ║\n");
+        printf("╠══════════════════════════════════════════════════════════════════════╣\n");
+        printf("║ 1. ➕  Ajouter une note                                              ║\n");
+        printf("║ 2. 🛠️  Modifier une note                                             ║\n");
+        printf("║ 3. ❌  Supprimer une note                                            ║\n");
+        printf("║ 4. 👨  Afficher notes d'un étudiant                                  ║\n");
+        printf("║ 5. 🏫  Afficher notes d'une classe                                   ║\n");
+        printf("║ 0. 🚪  Retour                                                        ║\n");
+        printf("╚══════════════════════════════════════════════════════════════════════╝\n");
+
+        printf("🎯 Votre choix : ");
         scanf("%d", &choix);
 
         switch (choix) {
-            case 1:
-                ajouterNote();
-                break;
-            case 2:
-                modifierNote();
-                break;
-            case 3:
-                supprimerNote();
-                break;
-            case 4:
-                afficherNotesEtudiant();
-                break;
-            case 5:
-                afficherNotesClasse();
-                break;
+            case 1: ajouterNote(); break;
+            case 2: modifierNote(); break;
+            case 3: supprimerNote(); break;
+            case 4: afficherNotesEtudiant(); break;
+            case 5: afficherNotesClasse(); break;
             case 0:
-                printf("Retour au menu principal.\n");
+                printf("👋 Retour au menu principal.\n");
                 break;
             default:
-                printf("Choix invalide.\n");
+                printf("❌ Choix invalide. Veuillez réessayer.\n");
         }
+
     } while (choix != 6);
 }
