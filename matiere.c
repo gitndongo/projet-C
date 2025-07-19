@@ -214,51 +214,57 @@ void affichermatiere()
 
 void menugestionmatiere()
 {
-    printf("\n=======vous etes dans le menu de la gestion des matieres==== \n");
+    int choix;
+
+    
     while (1)
     {
-        printf("Taper : \n ");
-        int choix;
-        printf("\n1. Pour Ajouter une matiere \n2. Pour Modifier une matiere \n3. Pour Supprimer une matiere \n4. Pour Rechercher une matiere \n5. Pour Afficher toutes les matieres\n6. Pour Associer une matiere a une classe \n7. pour afficher les matieres d'une classe \n8. Pour modifier une matiere d'une classe \n9. Pour supprimer une matiere \n0-) Pour quitter\n");
-        printf("Entrer votre choix  : ");
+        printf("\n");
+        printf("╔══════════════════════════════════════════════════════════╗\n");
+        printf("║       📚MENU DE LA GESTION DES MATIER                    ║\n");
+        printf("╠══════════════════════════════════════════════════════════╣\n");
+        printf("║ 1. ➕  Ajouter une matière                               ║\n");
+        printf("║ 2. 🛠️  Modifier une matière                              ║\n");
+        printf("║ 3. ❌  Supprimer une matière                             ║\n");
+        printf("║ 4. 🔍  Rechercher une matière                            ║\n");
+        printf("║ 5. 📋  Afficher toutes les matières                      ║\n");
+        printf("║ 6. 🔗  Associer une matière à une classe                 ║\n");
+        printf("║ 7. 🧾  Afficher les matières d'une classe                ║\n");
+        printf("║ 8. 📝  Modifier une matière d'une classe                 ║\n");
+        printf("║ 9. ❌  Supprimer une matière d'une classe                ║\n");
+        printf("║ 0. 🚪  quitter                                           ║\n");
+        printf("╚══════════════════════════════════════════════════════════╝\n");
+
+        printf("🎯 Entrer votre choix : ");
         scanf("%d", &choix);
-            switch (choix)
-            {
-                case 1 : ajoutermatiere();
-                        break;
-                case 2: modifiermatiere();
-                        break;
-                case 3 : supprimermatiere();
-                        break;
-                case 4 : recherchermatiere();
-                        break;
-                case 5 : affichermatiere();
-                        break;
-                case 6 :  ajouter_classe_matiere();
-                         break;
-                case 7: 
-                     int code;
-                         printf("Code de la classe : ");
-                              scanf("%d", &code);
-                         afficher_matieres_classe(code);
-                        break;
-                case 8 :  modifier_matiere_de_classe();
-                        break;
-                case 9 : supprimer_matiere_de_classe() ;
-                         break ;
-                case 0 : break;
-                default : printf("choix invalide \n ");
 
-            }
-if (choix ==0 )
-{
-    printf("=====Fermeture de la gestion des matieres ===== \n");
-    break;
+        switch (choix)
+        {
+            case 1: ajoutermatiere(); break;
+            case 2: modifiermatiere(); break;
+            case 3: supprimermatiere(); break;
+            case 4: recherchermatiere(); break;
+            case 5: affichermatiere(); break;
+            case 6: ajouter_classe_matiere(); break;
+            case 7:
+                {
+                    int code;
+                    printf("🔢 Code de la classe : ");
+                    scanf("%d", &code);
+                    afficher_matieres_classe(code);
+                }
+                break;
+            case 8: modifier_matiere_de_classe(); break;
+            case 9: supprimer_matiere_de_classe(); break;
+            case 0:
+                printf("👋 Fermeture de la gestion des matières...\n");
+                return;
+            default:
+                printf("❌ Choix invalide. Veuillez réessayer.\n");
+        }
+    }
 }
 
-
-     }
-}
 
 //-------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------

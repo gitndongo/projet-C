@@ -117,26 +117,40 @@ void supprimerEtudiant() {
 
 
 
-// Menu des etudiants
 void menuEtudiants() {
     int choix;
     do {
-        printf("\n--- Menu Étudiants ---\n");
-        printf("1. Ajouter un étudiant\n");
-        printf("2. Afficher les étudiants\n");
-        printf("3. Modifier un étudiant\n");
-        printf("4. Supprimer un étudiant\n");
-        printf("0. Retour\n");
-        printf("Choix : ");
+        printf("\n");
+        printf("╔════════════════════════════════════════════╗\n");
+        printf("║         🎓 MENU GESTION ÉTUDIANTS          ║\n");
+        printf("╠════════════════════════════════════════════╣\n");
+        printf("║ 1. ➕ Ajouter un étudiant                  ║\n");
+        printf("║ 2. 📋 Afficher les étudiants               ║\n");
+        printf("║ 3. ✏️  Modifier un étudiant                 ║\n");
+        printf("║ 4. ❌  Supprimer un étudiant                ║\n");
+        printf("║ 0. 🔙 Retour                               ║\n");
+        printf("╚════════════════════════════════════════════╝\n");
+        printf("Votre choix => ");
         scanf("%d", &choix);
 
         switch (choix) {
-            case 1: ajouterEtudiant(); break;
-            case 2: afficherEtudiants(); break;
-            case 3: modifierEtudiant(); break;
-            case 4: supprimerEtudiant(); break;
-            case 0: break;
-            default: printf("Choix invalide.\n");
+            case 1:
+                ajouterEtudiant();
+                break;
+            case 2:
+                afficherEtudiants();
+                break;
+            case 3:
+                modifierEtudiant();
+                break;
+            case 4:
+                supprimerEtudiant();
+                break;
+            case 0:
+                printf("🔙 Retour au menu précédent...\n");
+                break;
+            default:
+                printf("⚠️  Choix invalide. Veuillez réessayer.\n");
         }
     } while (choix != 0);
 }
